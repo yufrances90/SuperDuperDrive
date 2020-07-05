@@ -55,6 +55,7 @@ public class HomeController {
 
         data.put("toSignUp", true);
         data.put("signupSuccessfully", false);
+        data.put("hasError", false);
 
         model.addAllAttributes(data);
 
@@ -73,14 +74,23 @@ public class HomeController {
 
             Map<String, Object> data = new HashMap<>();
 
-            data.put("toSignUp", false);
-            data.put("signupSuccessfully", true);
+            data.put("toSignUp", true);
+            data.put("signupSuccessfully", false);
+            data.put("hasError", true);
 
             model.mergeAttributes(data);
 
             return "signup";
         } else {
-            return this.loginPage(userVo, model);
+
+            Map<String, Object> data = new HashMap<>();
+
+            data.put("toLogin", true);
+            data.put("loginSuccessfully", false);
+
+            model.addAllAttributes(data);
+
+            return "login";
         }
     }
 }

@@ -13,7 +13,7 @@ public class AuthorizationService {
         this.userService = userService;
     }
 
-    public Boolean signupUser(UserVO userVO) {
+    public boolean signupUser(UserVO userVO) {
 
         String username = userVO.getUsername();
 
