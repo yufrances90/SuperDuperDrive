@@ -15,10 +15,13 @@ public interface NoteMapper {
     Note getNoteById(Integer noteid);
 
     @Insert("INSERT INTO NOTES(notetitle, notedescription, userid) VALUES (" +
-            "${notetitle}, ${notedescription), ${userid}")
+            "#{notetitle}, #{notedescription}, #{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "noteid")
     int insert(Note note);
 
     @Delete("DELETE FROM NOTES WHERE noteid = #{noteid}")
     void delete(Integer noteid);
+
+    @Delete("DELETE FROM NOTES")
+    void deleteAll();
 }
