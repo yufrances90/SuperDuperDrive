@@ -8,6 +8,14 @@ public class File {
     private String filesize;
     private Integer userid;
 
+    public File(Integer fileid, String filename, String contenttype, String filesize, Integer userid) {
+        this.fileid = fileid;
+        this.filename = filename;
+        this.contenttype = contenttype;
+        this.filesize = filesize;
+        this.userid = userid;
+    }
+
     public Integer getFileid() {
         return fileid;
     }
