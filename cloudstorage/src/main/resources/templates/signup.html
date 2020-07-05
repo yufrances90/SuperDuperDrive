@@ -16,10 +16,10 @@
 
             <h1 class="display-5">Sign Up</h1>
             <form action="#" method="POST">
-                <div class="alert alert-dark">
+                <div class="alert alert-dark" th:if="${not toSignUp} and ${signupSuccessfully}">
                     You successfully signed up! Please continue to the <a>login</a> page.
                 </div>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" th:if="${not toSignUp} and ${signupSuccessfully}">
                     <span>Example Signup Error Message</span>
                 </div>
                 <div class="form-row">
