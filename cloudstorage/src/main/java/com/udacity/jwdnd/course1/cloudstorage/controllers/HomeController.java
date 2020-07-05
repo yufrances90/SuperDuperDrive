@@ -23,7 +23,18 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage(Model model) {
+    public String loginPage(
+            @ModelAttribute("userVo") UserVO userVo,
+            Model model
+    ) {
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("toLogin", true);
+        data.put("loginSuccessfully", false);
+
+        model.addAllAttributes(data);
+
         return "login";
     }
 
@@ -51,6 +62,16 @@ public class HomeController {
 
         this.logger.error("Received user info from Signup Form: " + userVo.toString());
 
-        return "home";
+        if (userVo.getFirstName() != null) {
+
+            Map<String, Object> data = new HashMap<>();
+
+            data.put("toSignUp", false);
+            data.put("signupSuccessfully", true);
+
+            model.mergeAttributes(data);
+        }
+
+        return "signup";
     }
 }
