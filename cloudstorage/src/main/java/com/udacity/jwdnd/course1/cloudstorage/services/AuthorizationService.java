@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
+import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.models.UserVO;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ public class AuthorizationService {
         if (!this.userService.isUsernameAvailable(username)) {
             return false;
         }
+
+        this.userService.createUser(userVO);
 
         return true;
     }
