@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
 import com.udacity.jwdnd.course1.cloudstorage.models.UserVO;
+import com.udacity.jwdnd.course1.cloudstorage.services.AuthorizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,12 @@ import java.util.Map;
 public class HomeController {
 
     private Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+    private AuthorizationService authorizationService;
+
+    public HomeController(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+    }
 
     @GetMapping("/home")
     public String getHomepage(Model model) {
@@ -62,7 +69,7 @@ public class HomeController {
 
         this.logger.error("Received user info from Signup Form: " + userVo.toString());
 
-        if (userVo.getFirstName() != null) {
+        if (!this.authorizationService.signupUser(userVo)) {
 
             Map<String, Object> data = new HashMap<>();
 
@@ -70,8 +77,10 @@ public class HomeController {
             data.put("signupSuccessfully", true);
 
             model.mergeAttributes(data);
-        }
 
-        return "signup";
+            return "signup";
+        } else {
+            return this.loginPage(userVo, model);
+        }
     }
 }
