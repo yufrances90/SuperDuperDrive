@@ -4,11 +4,10 @@ import com.udacity.jwdnd.course1.cloudstorage.models.UserVO;
 import com.udacity.jwdnd.course1.cloudstorage.services.AuthorizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,13 +31,20 @@ public class HomeController {
     @GetMapping("/login")
     public String loginPage(
             @ModelAttribute("userVo") UserVO userVo,
+            @RequestParam(required = false, name = "error") Boolean errorValue,
+            @RequestParam(required = false, name = "loggedOut") Boolean loggedOut,
             Model model
     ) {
+
+        Boolean hasError = (errorValue == null)? false : errorValue;
+        Boolean isLoggedOut = (loggedOut == null)? false : loggedOut;
 
         Map<String, Object> data = new HashMap<>();
 
         data.put("toLogin", true);
         data.put("loginSuccessfully", false);
+        data.put("hasError", hasError);
+        data.put("isLoggedOut", isLoggedOut);
 
         model.addAllAttributes(data);
 
@@ -87,6 +93,8 @@ public class HomeController {
 
             data.put("toLogin", true);
             data.put("loginSuccessfully", false);
+            data.put("hasError", false);
+            data.put("isLoggedOut", false);
 
             model.addAllAttributes(data);
 

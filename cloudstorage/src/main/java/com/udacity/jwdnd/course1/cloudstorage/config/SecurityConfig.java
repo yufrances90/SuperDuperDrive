@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/js/**").permitAll()
                 .anyRequest().authenticated();
 
-        http.formLogin().loginPage("/login").permitAll();
+        http.formLogin().loginPage("/login").permitAll().failureUrl("/login?error=true");
 
         http.formLogin().defaultSuccessUrl("/home", true);
     }

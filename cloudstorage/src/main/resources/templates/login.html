@@ -20,14 +20,14 @@
             >
 
                 <div
-                        th:if="${not toLogin} and ${not loginSuccessfully}"
+                        th:if="${hasError}"
                         class="alert alert-danger"
                 >
                     Invalid username or password
                 </div>
                 <div
                         class="alert alert-dark"
-                        th:if="${toLogin}"
+                        th:if="${isLoggedOut}"
                 >
                     You have been logged out
                 </div>
