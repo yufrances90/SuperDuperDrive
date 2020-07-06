@@ -28,6 +28,17 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/logout")
+    public String logOut(
+            @ModelAttribute("userVo") UserVO userVo,
+            Model model
+    ) {
+
+        this.logger.error("logout");
+
+        return this.loginPage(userVo, false, true, model);
+    }
+
     @GetMapping("/login")
     public String loginPage(
             @ModelAttribute("userVo") UserVO userVo,
