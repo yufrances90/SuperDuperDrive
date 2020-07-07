@@ -1,20 +1,19 @@
 package com.udacity.jwdnd.course1.cloudstorage.mappers;
 
-import com.udacity.jwdnd.course1.cloudstorage.CloudStorageApplication;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringJUnitConfig(CloudStorageApplication.class)
+@MybatisTest
 public class UserMapperTests {
 
     private Logger logger = LoggerFactory.getLogger(UserMapperTests.class);
