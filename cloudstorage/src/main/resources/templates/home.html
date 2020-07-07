@@ -12,7 +12,13 @@
         <div class="container">
             <div id="logoutDiv">
                 <form action="#" method="POST" th:action="@{/logout}">
-                    <button type="submit" class="btn btn-secondary float-right">Logout</button>
+                    <button
+                            type="submit"
+                            class="btn btn-secondary float-right"
+                            id="logoutBtn"
+                    >
+                        Logout
+                    </button>
                 </form>
             </div>
             <div id="contentDiv" style="clear: right;">
