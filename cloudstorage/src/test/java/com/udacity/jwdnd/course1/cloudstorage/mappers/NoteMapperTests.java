@@ -2,11 +2,9 @@ package com.udacity.jwdnd.course1.cloudstorage.mappers;
 
 import com.udacity.jwdnd.course1.cloudstorage.CloudStorageApplication;
 import com.udacity.jwdnd.course1.cloudstorage.models.Note;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig(CloudStorageApplication.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NoteMapperTests {
 
     private Logger logger = LoggerFactory.getLogger(NoteMapperTests.class);
@@ -29,7 +26,7 @@ public class NoteMapperTests {
     public void insertNoteWithNonexistUser() {
 
         Note newNote = new Note(
-                null, "Hello World", "Hello", 1);
+                null, "Hello World", "Hello", 1000);
 
         Assertions.assertThrows(Exception.class, () -> {
             this.noteMapper.insert(newNote);
@@ -51,6 +48,8 @@ public class NoteMapperTests {
 
     @Test
     public void findAllNotes() {
+
+        this.noteMapper.deleteAll();
 
         Note newNote = new Note(null, "Hello World", "Hello");
 
@@ -75,9 +74,9 @@ public class NoteMapperTests {
 
         this.noteMapper.delete(noteId);
 
-        List<Note> notes = this.noteMapper.getAllNotes();
+        Note note = this.noteMapper.getNoteById(noteId);
 
-        Assertions.assertTrue(notes.isEmpty());
+        Assertions.assertNull(note);
     }
 
     @Test

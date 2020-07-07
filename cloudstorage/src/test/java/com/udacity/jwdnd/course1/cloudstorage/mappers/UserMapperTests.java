@@ -2,10 +2,9 @@ package com.udacity.jwdnd.course1.cloudstorage.mappers;
 
 import com.udacity.jwdnd.course1.cloudstorage.CloudStorageApplication;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig(CloudStorageApplication.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserMapperTests {
 
     private Logger logger = LoggerFactory.getLogger(UserMapperTests.class);
@@ -40,14 +36,14 @@ public class UserMapperTests {
 
         Integer userId = newUser.getUserid();
 
-        assertNotNull(userId);
+        Assertions.assertNotNull(userId);
 
         User user = this.userMapper.getUserById(userId);
 
-        assertNotNull(user);
+        Assertions.assertNotNull(user);
 
-        assertEquals(newUser.getFirstname(), user.getFirstname());
-        assertEquals(newUser.getLastname(), user.getLastname());
+        Assertions.assertEquals(newUser.getFirstname(), user.getFirstname());
+        Assertions.assertEquals(newUser.getLastname(), user.getLastname());
     }
 
     @Test
@@ -64,12 +60,12 @@ public class UserMapperTests {
 
         List<User> userList = this.userMapper.getAllUsers();
 
-        assertFalse(userList.isEmpty());
-        assertTrue(userList.size() == 1);
+        Assertions.assertFalse(userList.isEmpty());
+        Assertions.assertTrue(userList.size() == 1);
 
         User user = userList.get(0);
 
-        assertEquals(newUser.getUsername(), user.getUsername());
+        Assertions.assertEquals(newUser.getUsername(), user.getUsername());
     }
 
     @Test
@@ -90,6 +86,6 @@ public class UserMapperTests {
 
         User user = this.userMapper.getUserById(userId);
 
-        assertNull(user);
+        Assertions.assertNull(user);
     }
 }
