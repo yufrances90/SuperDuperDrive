@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//http://mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.udacity.jwdnd.course1.cloudstorage.mappers.UserFileMapper" >
+    <resultMap id="BaseResultMap" type="com.udacity.jwdnd.course1.cloudstorage.models.UserFileVO" >
+        <result column="fileid" property="fileId" jdbcType="INTEGER" />
+        <result column="userid" property="userId" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, name
+    </sql>
+    <select id="selectByFileId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from files where fileid = #{fileId}
+    </select>
+</mapper>
