@@ -40,6 +40,14 @@ public class LoginAndSignupWorkflowTests {
     }
 
     @Test
+    public void homeNotAccessibleWithoutLoggingin() {
+
+        this.driver.get("http://localhost:" + this.port + "/home");
+
+        Assertions.assertEquals("Login", driver.getTitle());
+    }
+
+    @Test
 	public void login() throws InterruptedException {
 
 		driver.get("http://localhost:" + this.port + "/login");
