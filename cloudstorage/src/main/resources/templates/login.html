@@ -22,6 +22,7 @@
                 <div
                         th:if="${hasError}"
                         class="alert alert-danger"
+                        id="invalidMessage"
                 >
                     Invalid username or password
                 </div>
@@ -57,7 +58,9 @@
                             th:field="*{password}"
                     >
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    Login
+                </button>
             </form>
 
             <div class="form-group" style="margin-top: 0.5em;">
