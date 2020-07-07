@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserFileMapper {
 
-    UserFileVO selectByFileId(int fileId);
+    UserFileVO getFileByUsername(String username);
 }
