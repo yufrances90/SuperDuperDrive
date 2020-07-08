@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class FileService {
 
@@ -21,5 +24,15 @@ public class FileService {
 
         this.fileMapper = fileMapper;
         this.userFileMapper = userFileMapper;
+    }
+
+    public Boolean isFileNameAvailableForUser(String username, String filename) {
+
+        Map<String, Object> paraMap = new HashMap<>();
+
+        paraMap.put("username", username);
+        paraMap.put("filename", filename);
+
+        return this.userFileMapper.getFileByUsernameAndFileName(paraMap) == null;
     }
 }
