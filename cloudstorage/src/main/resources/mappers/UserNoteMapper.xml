@@ -30,4 +30,14 @@
             WHERE  username = #{username}
         ))
     </insert>
+
+    <update id="updateNoteByUsername" parameterType="java.lang.String">
+        UPDATE notes
+        SET notetitle = #{notetitle}, notedescription = #{notedescription}
+        WHERE userid = (
+        SELECT userid
+        FROM   users
+        WHERE  username = #{username}
+        )
+    </update>
 </mapper>

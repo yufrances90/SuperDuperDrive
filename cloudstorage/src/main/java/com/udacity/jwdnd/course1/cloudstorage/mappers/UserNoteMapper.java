@@ -16,4 +16,6 @@ public interface UserNoteMapper {
             String username,
             String notetitle,
             String notedescription);
+
+    int updateNoteByUsername(String username, String notetitle, String notedescription);
 }

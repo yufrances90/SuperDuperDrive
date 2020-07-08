@@ -3,8 +3,11 @@ package com.udacity.jwdnd.course1.cloudstorage.mappers;
 import com.udacity.jwdnd.course1.cloudstorage.models.Note;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.models.UserNoteVO;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.slf4j.Logger;
@@ -18,6 +21,12 @@ import java.util.List;
 @MybatisTest
 public class UserNoteMapperTests {
 
+    public static final String USERNAME = "byu00";
+    public static final String NOTE_TITLE = "hello-world";
+    public static final String NOTE_TITLE_I = "hello world";
+    public static final String NOTE_DESCRIPTION = "world";
+    public static final String NOTE_DESCRIPTION_I = "world-3";
+
     private Logger logger = LoggerFactory.getLogger(UserNoteMapperTests.class);
 
     @Autowired
@@ -29,14 +38,11 @@ public class UserNoteMapperTests {
     @Autowired
     private UserNoteMapper userNoteMapper;
 
-    @Test
-    public void getNotesByUsername() {
-
-        String username = "byu00";
-        String noteTitle = "hello-world";
+    @Before
+    public void beforeAll() {
 
         User user = new User(
-                username,
+                USERNAME,
                 "1234",
                 "1234",
                 "Hello",
@@ -44,75 +50,40 @@ public class UserNoteMapperTests {
 
         this.userMapper.insert(user);
 
-        Integer userId = user.getUserid();
-
-        Assertions.assertNotNull(userId);
-
-        Note note = new Note(
-                null,
-                noteTitle,
-                "hello test",
-                userId);
-
-        Note noteWithoutUser = new Note(
-                null,
-                noteTitle,
-                "hello test",
-                null);
-
-        this.noteMapper.insert(note);
-        this.noteMapper.insert(noteWithoutUser);
-
-        Integer noteId = note.getNoteid();
-
-        Assertions.assertNotNull(noteId);
-
-        Note savedNote = this.noteMapper.getNoteById(noteId);
-
-        Assertions.assertEquals(userId, savedNote.getUserid());
-
-        List<UserNoteVO> userNoteVOList = this.userNoteMapper.getNotesByUsername("byu00");
-
-        Assertions.assertFalse(userNoteVOList.isEmpty());
-        Assertions.assertEquals(1, userNoteVOList.size());
-
-        UserNoteVO userNoteVO = userNoteVOList.get(0);
-
-        Assertions.assertNotNull(userNoteVO);
-
-        Assertions.assertEquals(userId, userNoteVO.getUserId());
-        Assertions.assertEquals(noteId, userNoteVO.getNoteId());
-        Assertions.assertEquals(noteTitle, userNoteVO.getNoteTitle());
+        this.userNoteMapper.insertNoteByUsername(USERNAME, NOTE_TITLE, NOTE_DESCRIPTION);
     }
 
     @Test
     public void insertNoteByUsername() {
 
-        String username = "byu00";
-        String noteTitle = "hello";
+        User user = this.userMapper.getUserByUsername(USERNAME);
 
-        User user = new User(
-                username,
-                "1234",
-                "1234",
-                "Hello",
-                "World");
-
-        this.userMapper.insert(user);
-
-        Integer userId = user.getUserid();
-
-        Assertions.assertNotNull(userId);
-
-        this.userNoteMapper.insertNoteByUsername(username, noteTitle, "world");
-
-        List<UserNoteVO> userNoteVOList = this.userNoteMapper.getNotesByUsername(username);
+        List<UserNoteVO> userNoteVOList = this.userNoteMapper.getNotesByUsername(USERNAME);
 
         Assertions.assertFalse(userNoteVOList.isEmpty());
 
         UserNoteVO userNoteVO = userNoteVOList.get(0);
 
-        Assertions.assertEquals(userId, userNoteVO.getUserId());
-        Assertions.assertEquals(noteTitle, userNoteVO.getNoteTitle());
+        Assertions.assertEquals(NOTE_TITLE, userNoteVO.getNoteTitle());
+        Assertions.assertEquals(NOTE_DESCRIPTION, userNoteVO.getNoteDescription());
+        Assertions.assertEquals(user.getUserid(), userNoteVO.getUserId());
+    }
+
+    @Test
+    public void updateNoteByUsername() {
+
+        this.userNoteMapper.updateNoteByUsername(USERNAME, NOTE_TITLE_I, NOTE_DESCRIPTION_I);
+
+        User user = this.userMapper.getUserByUsername(USERNAME);
+
+        List<UserNoteVO> userNoteVOList = this.userNoteMapper.getNotesByUsername(USERNAME);
+
+        Assertions.assertFalse(userNoteVOList.isEmpty());
+
+        UserNoteVO userNoteVO = userNoteVOList.get(0);
+
+        Assertions.assertEquals(NOTE_TITLE_I, userNoteVO.getNoteTitle());
+        Assertions.assertEquals(NOTE_DESCRIPTION_I, userNoteVO.getNoteDescription());
+        Assertions.assertEquals(user.getUserid(), userNoteVO.getUserId());
     }
 }
