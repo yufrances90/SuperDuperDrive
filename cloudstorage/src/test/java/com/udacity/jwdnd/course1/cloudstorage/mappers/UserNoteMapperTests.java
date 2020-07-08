@@ -54,7 +54,14 @@ public class UserNoteMapperTests {
                 "hello test",
                 userId);
 
+        Note noteWithoutUser = new Note(
+                null,
+                noteTitle,
+                "hello test",
+                null);
+
         this.noteMapper.insert(note);
+        this.noteMapper.insert(noteWithoutUser);
 
         Integer noteId = note.getNoteid();
 
@@ -67,6 +74,7 @@ public class UserNoteMapperTests {
         List<UserNoteVO> userNoteVOList = this.userNoteMapper.getNotesByUsername("byu00");
 
         Assertions.assertFalse(userNoteVOList.isEmpty());
+        Assertions.assertEquals(1, userNoteVOList.size());
 
         UserNoteVO userNoteVO = userNoteVOList.get(0);
 
