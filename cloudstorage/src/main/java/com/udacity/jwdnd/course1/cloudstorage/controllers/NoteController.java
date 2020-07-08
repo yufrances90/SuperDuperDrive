@@ -39,7 +39,7 @@ public class NoteController {
         this.logger.error("Submitted Note: " + userNoteVO.toString());
 
         List<UserNoteVO> userNoteVOList =
-                this.noteService.insertNoteByUser(username, userNoteVO);
+                this.noteService.insertOrUpdateNoteByUser(username, userNoteVO);
 
         Map<String, Object> data = new HashMap<>();
 

@@ -28,12 +28,17 @@ public class NoteService {
         return this.userNoteMapper.getNotesByUsername(username);
     }
 
-    public List<UserNoteVO> insertNoteByUser(String username, UserNoteVO userNoteVO) {
+    public List<UserNoteVO> insertOrUpdateNoteByUser(String username, UserNoteVO userNoteVO) {
 
         String noteTitle = userNoteVO.getNoteTitle();
         String noteDescription = userNoteVO.getNoteDescription();
+        Integer noteId = userNoteVO.getNoteId();
 
-        this.userNoteMapper.insertNoteByUsername(username, noteTitle, noteDescription);
+        if (noteId == null || noteId.toString() == "") {
+            this.userNoteMapper.insertNoteByUsername(username, noteTitle, noteDescription);
+        } else {
+            this.userNoteMapper.updateNoteByUsername(username, noteTitle, noteDescription);
+        }
 
         return this.getNotesByUsername(username);
     }
