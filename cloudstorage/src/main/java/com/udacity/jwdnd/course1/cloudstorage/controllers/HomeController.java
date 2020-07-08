@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,13 @@ public class HomeController {
             @ModelAttribute("userNoteVO") UserNoteVO userNoteVO,
             Model model
     ) {
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("noteList", new ArrayList<>());
+
+        model.addAllAttributes(data);
+
         return "home";
     }
 

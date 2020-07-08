@@ -81,13 +81,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="note: ${noteList}">
                                         <td>
                                             <button type="button" class="btn btn-success">Edit</button>
                                             <a class="btn btn-danger">Delete</a>
                                         </td>
-                                        <th scope="row">Example Note Title</th>
-                                        <td>Example Note Description </td>
+                                        <th th:text="${note.noteTitle}" />
+                                        <td th:text="${note.noteDescription}" />
                                     </tr>
                                 </tbody>
                             </table>
