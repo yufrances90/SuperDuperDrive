@@ -76,15 +76,4 @@ public class FileMapperTests {
         Assertions.assertFalse(fileList.isEmpty());
         Assertions.assertTrue(fileList.size() == 1);
     }
-
-    @Test
-    public void getFileByName() {
-
-        File file = this.fileMapper.getFileByName(FILE_NAME);
-
-        Assertions.assertNotNull(file);
-
-        Assertions.assertEquals(FILE_NAME, file.getFilename());
-        Assertions.assertEquals(CONTENT_TYPE, file.getContenttype());
-    }
 }
