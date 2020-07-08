@@ -42,4 +42,11 @@ public class NoteService {
 
         return this.getNotesByUsername(username);
     }
+
+    public List<UserNoteVO> deleteNote(Integer noteId, String username) {
+
+        this.noteMapper.delete(noteId);
+
+        return this.getNotesByUsername(username);
+    }
 }

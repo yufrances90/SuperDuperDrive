@@ -82,7 +82,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="note: ${noteList}">
-                                        <td th:data-id="${note.noteId}" >
+                                        <td>
                                             <button
                                                     type="button"
                                                     class="btn btn-success"
@@ -90,7 +90,12 @@
                                             >
                                                 Edit
                                             </button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <a
+                                                    class="btn btn-danger"
+                                                    th:href="@{/notes/note?noteId={noteId}(noteId=${note.noteId})}"
+                                            >
+                                                Delete
+                                            </a>
                                         </td>
                                         <th th:text="${note.noteTitle}" />
                                         <td th:text="${note.noteDescription}" />

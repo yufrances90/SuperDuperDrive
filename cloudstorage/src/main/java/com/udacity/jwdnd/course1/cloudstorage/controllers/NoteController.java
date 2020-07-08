@@ -7,9 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +38,28 @@ public class NoteController {
 
         List<UserNoteVO> userNoteVOList =
                 this.noteService.insertOrUpdateNoteByUser(username, userNoteVO);
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("noteList", userNoteVOList);
+
+        model.addAllAttributes(data);
+
+        return "home";
+    }
+
+    @GetMapping("/note")
+    public String noteDeletion(
+            @ModelAttribute("userNoteVO") UserNoteVO userNoteVO,
+            @RequestParam(required = false, name = "noteId") Integer noteId,
+            Authentication authentication,
+            Model model
+    ) {
+        String username = authentication.getPrincipal().toString();
+
+        this.logger.error(noteId.toString());
+
+        List<UserNoteVO> userNoteVOList = this.noteService.deleteNote(noteId, username);
 
         Map<String, Object> data = new HashMap<>();
 
