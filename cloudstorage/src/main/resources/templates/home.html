@@ -115,7 +115,12 @@
                                                 action="#"
                                                 method="POST"
                                         >
-                                            <input type="hidden" name="noteId" id="note-id">
+                                            <input
+                                                    type="hidden"
+                                                    name="noteId"
+                                                    id="note-id"
+                                                    th:field="*{noteId}"
+                                            >
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
                                                 <input
