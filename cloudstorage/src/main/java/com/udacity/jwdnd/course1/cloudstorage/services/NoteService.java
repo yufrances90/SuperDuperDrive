@@ -27,4 +27,14 @@ public class NoteService {
     public List<UserNoteVO> getNotesByUsername(String username) {
         return this.userNoteMapper.getNotesByUsername(username);
     }
+
+    public List<UserNoteVO> insertNoteByUser(String username, UserNoteVO userNoteVO) {
+
+        String noteTitle = userNoteVO.getNoteTitle();
+        String noteDescription = userNoteVO.getNoteDescription();
+
+        this.userNoteMapper.insertNoteByUsername(username, noteTitle, noteDescription);
+
+        return this.getNotesByUsername(username);
+    }
 }

@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
+import com.udacity.jwdnd.course1.cloudstorage.models.UserNoteVO;
 import com.udacity.jwdnd.course1.cloudstorage.models.UserVO;
 import com.udacity.jwdnd.course1.cloudstorage.services.AuthorizationService;
 import org.slf4j.Logger;
@@ -24,7 +25,10 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String getHomepage(Model model) {
+    public String getHomepage(
+            @ModelAttribute("userNoteVO") UserNoteVO userNoteVO,
+            Model model
+    ) {
         return "home";
     }
 

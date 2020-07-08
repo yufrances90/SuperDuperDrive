@@ -48,4 +48,14 @@ public class UserNoteVO {
     public void setNoteDescription(String noteDescription) {
         this.noteDescription = noteDescription;
     }
+
+    @Override
+    public String toString() {
+        return "UserNoteVO{" +
+                "userId=" + userId +
+                ", noteId=" + noteId +
+                ", noteTitle='" + noteTitle + '\'' +
+                ", noteDescription='" + noteDescription + '\'' +
+                '}';
+    }
 }
