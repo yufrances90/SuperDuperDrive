@@ -82,8 +82,14 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="note: ${noteList}">
-                                        <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
+                                        <td th:data-id="${note.noteId}" >
+                                            <button
+                                                    type="button"
+                                                    class="btn btn-success"
+                                                    th:onclick="editNote([[${note}]])"
+                                            >
+                                                Edit
+                                            </button>
                                             <a class="btn btn-danger">Delete</a>
                                         </td>
                                         <th th:text="${note.noteTitle}" />
@@ -224,6 +230,13 @@
                 $('#note-id').val(noteId ? noteId : '');
                 $('#note-title').val(noteTitle ? noteTitle : '');
                 $('#note-description').val(noteDescription ? noteDescription : '');
+                $('#noteModal').modal('show');
+            }
+
+            function editNote(note) {
+                $('#note-id').val(note.noteId);
+                $('#note-title').val(note.noteTitle);
+                $('#note-description').val(note.noteDescription);
                 $('#noteModal').modal('show');
             }
 
