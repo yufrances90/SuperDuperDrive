@@ -20,4 +20,14 @@
         INNER JOIN users u ON u.userid = n.userid
         WHERE username = #{username}
     </select>
+
+    <insert id="insertNoteByUsername" parameterType="java.lang.String">
+        INSERT INTO notes(notetitle, notedescription, userid)
+        VALUES (
+            #{notetitle}, #{notedescription}, (
+            SELECT userid
+            FROM   users
+            WHERE  username = #{username}
+        ))
+    </insert>
 </mapper>
