@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @MybatisTest
 public class UserFileMapperTests {
@@ -60,7 +62,11 @@ public class UserFileMapperTests {
 
         Assertions.assertNotNull(fileId);
 
-        UserFileVO userFileVO = this.userFileMapper.getFileByUsername(username);
+        List<UserFileVO> userFileVOList = this.userFileMapper.getFileByUsername(username);
+
+        Assertions.assertFalse(userFileVOList.isEmpty());
+
+        UserFileVO userFileVO = userFileVOList.get(0);
 
         Assertions.assertNotNull(userFileVO);
 

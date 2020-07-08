@@ -12,7 +12,7 @@
     <select id="getNotesByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         noteid,
-        n.userid
+        u.userid,
         notetitle,
         notedescription
         FROM
