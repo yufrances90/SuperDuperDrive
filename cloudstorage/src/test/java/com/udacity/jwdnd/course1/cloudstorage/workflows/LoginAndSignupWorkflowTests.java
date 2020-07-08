@@ -18,7 +18,6 @@ public class LoginAndSignupWorkflowTests {
     private int port;
 
     private WebDriver driver;
-    private WebDriverWait driverWait;
 
     @BeforeAll
     static void beforeAll() {
