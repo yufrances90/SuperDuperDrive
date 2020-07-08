@@ -28,4 +28,24 @@
             AND
             username = #{username}
     </select>
+
+    <select id="getFileByUsernameAndFileName" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT
+        fileid,
+        filename,
+        contenttype,
+        filesize,
+        u.userid,
+        filedata
+        FROM
+        files f
+        INNER JOIN
+        users u
+        WHERE
+        f.userid = u.userid
+        AND
+        username = #{username}
+        AND
+        filename = #{filename}
+    </select>
 </mapper>

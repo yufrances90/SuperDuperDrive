@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.mappers;
 import com.udacity.jwdnd.course1.cloudstorage.models.File;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.models.UserFileVO;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -12,11 +13,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @MybatisTest
 public class UserFileMapperTests {
+
+    public final static String USERNAME = "byu00";
+    public final static String FILE_NAME = "hello-world";
+
+    private Integer userId;
+    private Integer fileId;
 
     private Logger logger = LoggerFactory.getLogger(FileMapperTests.class);
 
@@ -29,14 +38,11 @@ public class UserFileMapperTests {
     @Autowired
     private UserFileMapper userFileMapper;
 
-    @Test
-    public void getFileByUsername() {
-
-        String username = "byu00";
-        String fileName = "hello-world";
+    @Before
+    public void before() {
 
         User user = new User(
-                username,
+                USERNAME,
                 "1234",
                 "1234",
                 "Hello",
@@ -44,25 +50,29 @@ public class UserFileMapperTests {
 
         this.userMapper.insert(user);
 
-        Integer userId = user.getUserid();
-
-        Assertions.assertNotNull(userId);
+        this.userId = user.getUserid();
 
         File file = new File(
                 null,
-                fileName,
+                FILE_NAME,
                 "txt",
                 "3MB",
-                userId,
+                this.userId,
                 null);
 
         this.fileMapper.insert(file);
 
-        Integer fileId = file.getFileid();
+        this.fileId = file.getFileid();
+    }
 
-        Assertions.assertNotNull(fileId);
+    @Test
+    public void getFileByUsername() {
 
-        List<UserFileVO> userFileVOList = this.userFileMapper.getFileByUsername(username);
+        Assertions.assertNotNull(this.userId);
+
+        Assertions.assertNotNull(this.fileId);
+
+        List<UserFileVO> userFileVOList = this.userFileMapper.getFileByUsername(USERNAME);
 
         Assertions.assertFalse(userFileVOList.isEmpty());
 
@@ -72,6 +82,28 @@ public class UserFileMapperTests {
 
         Assertions.assertEquals(userId, userFileVO.getUserId());
         Assertions.assertEquals(fileId, userFileVO.getFileId());
-        Assertions.assertEquals(fileName, userFileVO.getFileName());
+        Assertions.assertEquals(FILE_NAME, userFileVO.getFileName());
+    }
+
+    @Test
+    public void getFileByUsernameAndFileName() {
+
+        Map<String, Object> paraMap = new HashMap<>();
+
+        paraMap.put("username", USERNAME);
+        paraMap.put("filename", FILE_NAME);
+
+        List<UserFileVO> userFileVOList =
+                this.userFileMapper.getFileByUsernameAndFileName(paraMap);
+
+        Assertions.assertFalse(userFileVOList.isEmpty());
+
+        UserFileVO userFileVO = userFileVOList.get(0);
+
+        Assertions.assertNotNull(userFileVO);
+
+        Assertions.assertEquals(userId, userFileVO.getUserId());
+        Assertions.assertEquals(fileId, userFileVO.getFileId());
+        Assertions.assertEquals(FILE_NAME, userFileVO.getFileName());
     }
 }
