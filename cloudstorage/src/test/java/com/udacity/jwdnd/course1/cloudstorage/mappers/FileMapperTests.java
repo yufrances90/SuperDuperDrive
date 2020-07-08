@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.mappers;
 
 import com.udacity.jwdnd.course1.cloudstorage.models.File;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -16,56 +17,53 @@ import java.util.List;
 @MybatisTest
 public class FileMapperTests {
 
+    public final static String CONTENT_TYPE = "txt";
+    public final static String FILE_NAME = "hello";
+
     private Logger logger = LoggerFactory.getLogger(FileMapperTests.class);
 
     @Autowired
     private FileMapper fileMapper;
 
-    @Test
-    public void insertFile() {
+    private Integer fileId;
+
+    @Before
+    public void before() {
 
         File newFile = new File(
                 null,
-                "hello",
-                "txt",
+                FILE_NAME,
+                CONTENT_TYPE,
                 "3GB",
                 null
         );
 
         this.fileMapper.insert(newFile);
 
-        Integer fileId = newFile.getFileid();
+        this.fileId = newFile.getFileid();
+    }
 
-        Assertions.assertNotNull(fileId);
+    @Test
+    public void insertFile() {
 
-        File file = this.fileMapper.getFileById(fileId);
+        Assertions.assertNotNull(this.fileId);
+
+        File file = this.fileMapper.getFileById(this.fileId);
 
         Assertions.assertNotNull(file);
-        Assertions.assertEquals(newFile.getContenttype(), file.getContenttype());
-        Assertions.assertEquals(newFile.getFilename(), file.getFilename());
+        Assertions.assertEquals(CONTENT_TYPE, file.getContenttype());
+        Assertions.assertEquals(FILE_NAME, file.getFilename());
         Assertions.assertNull(file.getUserid());
     }
 
     @Test
     public void deleteFile() {
 
-        File newFile = new File(
-                null,
-                "hello",
-                "txt",
-                "3GB",
-                null
-        );
+        Assertions.assertNotNull(this.fileId);
 
-        this.fileMapper.insert(newFile);
+        this.fileMapper.delete(this.fileId);
 
-        Integer fileId = newFile.getFileid();
-
-        Assertions.assertNotNull(fileId);
-
-        this.fileMapper.delete(fileId);
-
-        File file = this.fileMapper.getFileById(fileId);
+        File file = this.fileMapper.getFileById(this.fileId);
 
         Assertions.assertNull(file);
     }
@@ -73,23 +71,20 @@ public class FileMapperTests {
     @Test
     public void getAllFiles() {
 
-        File newFile = new File(
-                null,
-                "hello",
-                "txt",
-                "3GB",
-                null
-        );
-
-        this.fileMapper.insert(newFile);
-
-        Integer fileId = newFile.getFileid();
-
-        Assertions.assertNotNull(fileId);
-
         List<File> fileList = this.fileMapper.getAllFiles();
 
         Assertions.assertFalse(fileList.isEmpty());
         Assertions.assertTrue(fileList.size() == 1);
+    }
+
+    @Test
+    public void getFileByName() {
+
+        File file = this.fileMapper.getFileByName(FILE_NAME);
+
+        Assertions.assertNotNull(file);
+
+        Assertions.assertEquals(FILE_NAME, file.getFilename());
+        Assertions.assertEquals(CONTENT_TYPE, file.getContenttype());
     }
 }
