@@ -39,30 +39,10 @@
 
                         <div class="table-responsive">
                             <table class="table table-striped" id="userTable">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 20%" scope="col"></th>
-                                        <th style="width: 20%" scope="col">Title</th>
-                                        <th style="width: 60%" scope="col">Description</th>
-                                    </tr>
-                                </thead>
+                                <div th:replace="fragments/note/table :: head"></div>
                                 <tbody>
                                     <tr th:each="note: ${noteList}" class="note-elements">
-                                        <td>
-                                            <button
-                                                    type="button"
-                                                    class="btn btn-success"
-                                                    th:onclick="editNote([[${note}]])"
-                                            >
-                                                Edit
-                                            </button>
-                                            <a
-                                                    class="btn btn-danger"
-                                                    th:href="@{/notes/note?noteId={noteId}(noteId=${note.noteId})}"
-                                            >
-                                                Delete
-                                            </a>
-                                        </td>
+                                        <div th:replace="fragments/note/table :: button-group"></div>
                                         <th th:text="${note.noteTitle}" />
                                         <td th:text="${note.noteDescription}" />
                                     </tr>
