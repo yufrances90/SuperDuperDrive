@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controllers;
 import com.udacity.jwdnd.course1.cloudstorage.models.UserNoteVO;
 import com.udacity.jwdnd.course1.cloudstorage.models.UserVO;
 import com.udacity.jwdnd.course1.cloudstorage.services.AuthorizationService;
+import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -20,20 +21,29 @@ public class HomeController {
     private Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     private AuthorizationService authorizationService;
+    private NoteService noteService;
 
-    public HomeController(AuthorizationService authorizationService) {
+    public HomeController(
+            AuthorizationService authorizationService,
+            NoteService noteService
+    ) {
+
         this.authorizationService = authorizationService;
+        this.noteService = noteService;
     }
 
     @GetMapping("/home")
     public String getHomepage(
             @ModelAttribute("userNoteVO") UserNoteVO userNoteVO,
+            Authentication authentication,
             Model model
     ) {
 
+        String username = (String) authentication.getPrincipal();
+
         Map<String, Object> data = new HashMap<>();
 
-        data.put("noteList", new ArrayList<>());
+        data.put("noteList", this.noteService.getNotesByUsername(username));
 
         model.addAllAttributes(data);
 
