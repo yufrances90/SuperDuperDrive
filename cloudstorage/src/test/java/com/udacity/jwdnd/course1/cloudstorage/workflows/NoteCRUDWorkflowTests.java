@@ -30,7 +30,7 @@ public class NoteCRUDWorkflowTests {
     }
 
     @BeforeEach
-    public void beforeEach() {
+    public void beforeEach() throws InterruptedException {
 
         this.driver = new ChromeDriver();
         this.webDriverWait = new WebDriverWait (driver, 1000);
@@ -63,13 +63,11 @@ public class NoteCRUDWorkflowTests {
 
         deleteBtn.click();
 
-        WebElement notesTab = this.driver.findElement(By.id("nav-notes-tab"));
-
-        notesTab.click();
+        this.backToHomeFromResultPage();
 
         Assertions.assertThrows(NoSuchElementException.class, () -> {
-            this.driver.findElement(By.xpath("//th[text()='Hello-1']"));
-            this.driver.findElement(By.xpath("//td[text()='Hello World-1']"));
+            this.driver.findElement(By.xpath("//th[text()='Hello']"));
+            this.driver.findElement(By.xpath("//td[text()='Hello World']"));
         });
     }
 
@@ -105,9 +103,7 @@ public class NoteCRUDWorkflowTests {
 
         noteForm.submit();
 
-        WebElement notesTab = this.driver.findElement(By.id("nav-notes-tab"));
-
-        notesTab.click();
+        this.backToHomeFromResultPage();
 
         Assertions.assertDoesNotThrow(() -> {
             this.driver.findElement(By.xpath("//th[text()='Hello-1']"));
@@ -119,15 +115,30 @@ public class NoteCRUDWorkflowTests {
      * Private functions
      */
 
-    private void insertNewNote() {
+    private void backToHomeFromResultPage() throws InterruptedException {
+
+        Assertions.assertEquals("Result", driver.getTitle());
+
+        WebElement backToHomeBtn = this.driver.findElement(By.id("back-to-home-from-success"));
+
+        backToHomeBtn.click();
+
+        this.webDriverWait.until(ExpectedConditions.titleContains("Home"));
+
+        Assertions.assertEquals("Home", driver.getTitle());
+
+        WebElement notesTab = this.driver.findElement(By.id("nav-notes-tab"));
+
+        notesTab.click();
+    }
+
+    private void insertNewNote() throws InterruptedException {
 
         this.driver.get("http://localhost:" + this.port + "/home");
 
         WebElement notesTab = this.driver.findElement(By.id("nav-notes-tab"));
 
         notesTab.click();
-
-        List<WebElement> notes = this.driver.findElements(By.className("note-elements"));
 
         this.webDriverWait.until(ExpectedConditions.elementToBeClickable(By.id("note-creation-btn")));
 
@@ -151,9 +162,7 @@ public class NoteCRUDWorkflowTests {
 
         noteForm.submit();
 
-        notesTab = this.driver.findElement(By.id("nav-notes-tab"));
-
-        notesTab.click();
+        this.backToHomeFromResultPage();
     }
 
     private void loginUser() {
