@@ -65,8 +65,6 @@ public class NoteCRUDWorkflowTests {
 
         WebElement notesTab = this.driver.findElement(By.id("nav-notes-tab"));
 
-        this.webDriverWait.until(ExpectedConditions.visibilityOf(notesTab));
-
         notesTab.click();
 
         Assertions.assertThrows(NoSuchElementException.class, () -> {
@@ -108,8 +106,6 @@ public class NoteCRUDWorkflowTests {
         noteForm.submit();
 
         WebElement notesTab = this.driver.findElement(By.id("nav-notes-tab"));
-
-        this.webDriverWait.until(ExpectedConditions.visibilityOf(notesTab));
 
         notesTab.click();
 
@@ -156,8 +152,6 @@ public class NoteCRUDWorkflowTests {
         noteForm.submit();
 
         notesTab = this.driver.findElement(By.id("nav-notes-tab"));
-
-        this.webDriverWait.until(ExpectedConditions.visibilityOf(notesTab));
 
         notesTab.click();
     }
