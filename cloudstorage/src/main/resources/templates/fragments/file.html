@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <body>
+
+
+        <form action="#" enctype="multipart/form-data" method="POST" th:fragment="form">
+
+            <div class="container">
+                <div class="row" style="margin: 1em;">
+                    <div class="col-sm-2">
+                        <label for="fileUpload">Upload a New File:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="submit" class="btn btn-dark">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <table class="table table-striped" id="fileTable" th:fragment="table">
+            <thead>
+            <tr>
+                <th style="width: 20%" scope="col"></th>
+                <th style="width: 80%" scope="col">File Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <a target="_blank" class="btn btn-success">View</a>
+                    <a  class="btn btn-danger">Delete</a>
+                </td>
+                <th scope="row">ExampleFile.txt</th>
+            </tr>
+            </tbody>
+        </table>
+
+    
+    </body>
+</html>
