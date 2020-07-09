@@ -43,10 +43,10 @@ public class NoteService {
         return true;
     }
 
-    public List<UserNoteVO> deleteNote(Integer noteId, String username) {
+    public Boolean deleteNote(Integer noteId, String username) {
 
         this.noteMapper.delete(noteId);
 
-        return this.getNotesByUsername(username);
+        return true;
     }
 }

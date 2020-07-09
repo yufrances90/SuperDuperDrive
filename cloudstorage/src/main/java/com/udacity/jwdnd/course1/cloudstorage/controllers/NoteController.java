@@ -39,12 +39,6 @@ public class NoteController {
         Boolean isSuccess =
                 this.noteService.insertOrUpdateNoteByUser(username, userNoteVO);
 
-        Map<String, Object> data = new HashMap<>();
-
-        data.put("isSuccess", isSuccess);
-
-        model.addAllAttributes(data);
-
         return "redirect:/result?isSuccess=" + isSuccess;
     }
 
@@ -59,14 +53,8 @@ public class NoteController {
 
         this.logger.error(noteId.toString());
 
-        List<UserNoteVO> userNoteVOList = this.noteService.deleteNote(noteId, username);
+        Boolean isSuccess = this.noteService.deleteNote(noteId, username);
 
-        Map<String, Object> data = new HashMap<>();
-
-        data.put("noteList", userNoteVOList);
-
-        model.addAllAttributes(data);
-
-        return "home";
+        return "redirect:/result?isSuccess=" + isSuccess;
     }
 }
