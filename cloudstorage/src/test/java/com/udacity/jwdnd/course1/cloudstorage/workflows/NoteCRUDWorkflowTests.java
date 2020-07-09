@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.workflows;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,6 +15,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class NoteCRUDWorkflowTests {
 
     @LocalServerPort
@@ -27,57 +29,6 @@ public class NoteCRUDWorkflowTests {
         WebDriverManager.chromedriver().setup();
     }
 
-    private void signupUser() {
-
-        this.driver.get("http://localhost:" + this.port + "/signup");
-
-        WebElement fNameField = this.driver.findElement(By.id("inputFirstName"));
-
-        fNameField.sendKeys("Hello");
-
-        WebElement lNameField = this.driver.findElement(By.id("inputLastName"));
-
-        lNameField.sendKeys("World");
-
-        WebElement usrnameField = driver.findElement(By.id("inputUsername"));
-
-        usrnameField.sendKeys("byu00");
-
-        WebElement pwdField = driver.findElement(By.id("inputPassword"));
-
-        pwdField.sendKeys("test1234");
-
-        WebElement submitButton = driver.findElement(By.id("signupBtn"));
-
-        submitButton.click();
-    }
-
-    private void loginUser() {
-
-        driver.get("http://localhost:" + this.port + "/login");
-
-        WebElement usrnameField = driver.findElement(By.id("inputUsername"));
-
-        usrnameField.sendKeys("byu00");
-
-        WebElement pwdField = driver.findElement(By.id("inputPassword"));
-
-        pwdField.sendKeys("test1234");
-
-        WebElement submitButton = driver.findElement(By.id("loginBtn"));
-
-        Assertions.assertEquals("Login", submitButton.getText());
-
-        submitButton.click();
-    }
-
-    private void signupAndLoginUser() {
-
-        this.signupUser();
-
-        this.loginUser();
-    }
-
     @BeforeEach
     public void beforeEach() {
 
@@ -85,6 +36,8 @@ public class NoteCRUDWorkflowTests {
         this.webDriverWait = new WebDriverWait (driver, 1000);
 
         this.signupAndLoginUser();
+
+        this.insertNewNote();
     }
 
     @AfterEach
@@ -95,7 +48,82 @@ public class NoteCRUDWorkflowTests {
     }
 
     @Test
-    public void createNote() throws InterruptedException {
+    @Order(1)
+    public void createAndDeleteNote() throws InterruptedException {
+
+        Assertions.assertDoesNotThrow(() -> {
+            this.driver.findElement(By.xpath("//th[text()='Hello']"));
+            this.driver.findElement(By.xpath("//td[text()='Hello World']"));
+        });
+
+        WebElement deleteBtn = this.driver.findElement(
+                By.xpath("//*[@id=\"userTable\"]/tbody/tr/td[1]/a"));
+
+        this.webDriverWait.until(ExpectedConditions.elementToBeClickable(deleteBtn));
+
+        deleteBtn.click();
+
+        WebElement notesTab = this.driver.findElement(By.id("nav-notes-tab"));
+
+        this.webDriverWait.until(ExpectedConditions.visibilityOf(notesTab));
+
+        notesTab.click();
+
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            this.driver.findElement(By.xpath("//th[text()='Hello-1']"));
+            this.driver.findElement(By.xpath("//td[text()='Hello World-1']"));
+        });
+    }
+
+    @Test
+    @Order(2)
+    public void updateNote() throws InterruptedException {
+
+        Assertions.assertDoesNotThrow(() -> {
+            this.driver.findElement(By.xpath("//th[text()='Hello']"));
+            this.driver.findElement(By.xpath("//td[text()='Hello World']"));
+        });
+
+        WebElement editBtn = this.driver.findElement(
+                By.xpath("//*[@id='userTable']/tbody/tr/td[1]/button"));
+
+        this.webDriverWait.until(ExpectedConditions.elementToBeClickable(editBtn));
+
+        editBtn.click();
+
+        WebElement noteTitleField = this.driver.findElement(By.id("note-title"));
+
+        this.webDriverWait.until(ExpectedConditions.visibilityOf(noteTitleField));
+
+        noteTitleField.clear();
+        noteTitleField.sendKeys("Hello-1");
+
+        WebElement noteDescriptionField = this.driver.findElement(By.id("note-description"));
+
+        noteDescriptionField.clear();
+        noteDescriptionField.sendKeys("Hello World-1");
+
+        WebElement noteForm = this.driver.findElement(By.id("note-form"));
+
+        noteForm.submit();
+
+        WebElement notesTab = this.driver.findElement(By.id("nav-notes-tab"));
+
+        this.webDriverWait.until(ExpectedConditions.visibilityOf(notesTab));
+
+        notesTab.click();
+
+        Assertions.assertDoesNotThrow(() -> {
+            this.driver.findElement(By.xpath("//th[text()='Hello-1']"));
+            this.driver.findElement(By.xpath("//td[text()='Hello World-1']"));
+        });
+    }
+
+    /**
+     * Private functions
+     */
+
+    private void insertNewNote() {
 
         this.driver.get("http://localhost:" + this.port + "/home");
 
@@ -132,9 +160,56 @@ public class NoteCRUDWorkflowTests {
         this.webDriverWait.until(ExpectedConditions.visibilityOf(notesTab));
 
         notesTab.click();
+    }
 
-        List<WebElement> newNotes = this.driver.findElements(By.className("note-elements"));
+    private void loginUser() {
 
-        Assertions.assertEquals(notes.size() + 1, newNotes.size());
+        driver.get("http://localhost:" + this.port + "/login");
+
+        WebElement usrnameField = driver.findElement(By.id("inputUsername"));
+
+        usrnameField.sendKeys("byu00");
+
+        WebElement pwdField = driver.findElement(By.id("inputPassword"));
+
+        pwdField.sendKeys("test1234");
+
+        WebElement submitButton = driver.findElement(By.id("loginBtn"));
+
+        Assertions.assertEquals("Login", submitButton.getText());
+
+        submitButton.click();
+    }
+
+    private void signupAndLoginUser() {
+
+        this.signupUser();
+
+        this.loginUser();
+    }
+
+    private void signupUser() {
+
+        this.driver.get("http://localhost:" + this.port + "/signup");
+
+        WebElement fNameField = this.driver.findElement(By.id("inputFirstName"));
+
+        fNameField.sendKeys("Hello");
+
+        WebElement lNameField = this.driver.findElement(By.id("inputLastName"));
+
+        lNameField.sendKeys("World");
+
+        WebElement usrnameField = driver.findElement(By.id("inputUsername"));
+
+        usrnameField.sendKeys("byu00");
+
+        WebElement pwdField = driver.findElement(By.id("inputPassword"));
+
+        pwdField.sendKeys("test1234");
+
+        WebElement submitButton = driver.findElement(By.id("signupBtn"));
+
+        submitButton.click();
     }
 }
