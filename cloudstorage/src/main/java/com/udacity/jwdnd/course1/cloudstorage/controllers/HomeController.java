@@ -124,4 +124,20 @@ public class HomeController {
             return "login";
         }
     }
+
+    @GetMapping("/result")
+    public String showResult(
+            Authentication authentication,
+            @RequestParam(required = false, name = "isSuccess") Boolean isSuccess,
+            Model model
+    ) {
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("isSuccess", isSuccess);
+
+        model.addAllAttributes(data);
+
+        return "result";
+    }
 }

@@ -28,7 +28,7 @@ public class NoteService {
         return this.userNoteMapper.getNotesByUsername(username);
     }
 
-    public List<UserNoteVO> insertOrUpdateNoteByUser(String username, UserNoteVO userNoteVO) {
+    public Boolean insertOrUpdateNoteByUser(String username, UserNoteVO userNoteVO) {
 
         String noteTitle = userNoteVO.getNoteTitle();
         String noteDescription = userNoteVO.getNoteDescription();
@@ -40,7 +40,7 @@ public class NoteService {
             this.userNoteMapper.updateNoteByUsername(username, noteTitle, noteDescription);
         }
 
-        return this.getNotesByUsername(username);
+        return true;
     }
 
     public List<UserNoteVO> deleteNote(Integer noteId, String username) {

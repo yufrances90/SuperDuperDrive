@@ -36,16 +36,16 @@ public class NoteController {
 
         this.logger.error("Submitted Note: " + userNoteVO.toString());
 
-        List<UserNoteVO> userNoteVOList =
+        Boolean isSuccess =
                 this.noteService.insertOrUpdateNoteByUser(username, userNoteVO);
 
         Map<String, Object> data = new HashMap<>();
 
-        data.put("noteList", userNoteVOList);
+        data.put("isSuccess", isSuccess);
 
         model.addAllAttributes(data);
 
-        return "home";
+        return "redirect:/result?isSuccess=" + isSuccess;
     }
 
     @GetMapping("/note")
