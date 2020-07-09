@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <body>
+
+
+        <div th:fragment="form">
+            <form action="#" method="POST" th:action="@{/logout}">
+                <button
+                        type="submit"
+                        class="btn btn-secondary float-right"
+                        id="logoutBtn"
+                >
+                    Logout
+                </button>
+            </form>
+        </div>
+
+
+        <nav style="clear: right;" th:fragment="tabs">
+
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+                <a
+                        class="nav-item nav-link active"
+                        id="nav-files-tab"
+                        data-toggle="tab"
+                        href="#nav-files"
+                        role="tab"
+                        aria-controls="nav-files"
+                        aria-selected="true"
+                >
+                    Files
+                </a>
+
+                <a
+                        class="nav-item nav-link"
+                        id="nav-notes-tab"
+                        data-toggle="tab"
+                        href="#nav-notes"
+                        role="tab"
+                        aria-controls="nav-notes"
+                        aria-selected="false"
+                >
+                    Notes
+                </a>
+
+                <a
+                        class="nav-item nav-link"
+                        id="nav-credentials-tab"
+                        data-toggle="tab"
+                        href="#nav-credentials"
+                        role="tab"
+                        aria-controls="nav-credentials"
+                        aria-selected="false"
+                >
+                    Credentials
+                </a>
+            </div>
+        </nav>
+    </body>
+</html>
