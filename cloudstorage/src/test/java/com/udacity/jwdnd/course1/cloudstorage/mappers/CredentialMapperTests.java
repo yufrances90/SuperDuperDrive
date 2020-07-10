@@ -35,8 +35,7 @@ public class CredentialMapperTests {
 
         Assertions.assertNotNull(credentialId);
 
-        Credential credential = this.credentialMapper.getCredentialByUsername(
-                newCredential.getUsername());
+        Credential credential = this.credentialMapper.getCredentialByCredentialId(credentialId);
 
         Assertions.assertNotNull(credential);
         Assertions.assertEquals(newCredential.getUrl(), credential.getUrl());
@@ -62,9 +61,34 @@ public class CredentialMapperTests {
 
         this.credentialMapper.delete(credentialId);
 
-        Credential credential = this.credentialMapper.getCredentialByUsername(
-                newCredential.getUsername());
+        Credential credential = this.credentialMapper.getCredentialByCredentialId(credentialId);
 
         Assertions.assertNull(credential);
+    }
+
+    @Test
+    public void updateCredential() {
+
+        Credential newCredential = new Credential(
+                null,
+                "www.google.com",
+                "hello1",
+                "sasfdasdfasdf#$#",
+                "worldsdfsdf");
+
+        this.credentialMapper.insert(newCredential);
+
+        Integer credentialId = newCredential.getCredentialid();
+
+        Assertions.assertNotNull(credentialId);
+
+        this.credentialMapper.update("", "hello", "123", credentialId);
+
+        Credential credential =
+                this.credentialMapper.getCredentialByCredentialId(credentialId);
+
+        Assertions.assertEquals("", credential.getUrl());
+        Assertions.assertEquals("hello", credential.getUsername());
+        Assertions.assertEquals("123", credential.getPassword());
     }
 }
