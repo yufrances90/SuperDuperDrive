@@ -26,6 +26,7 @@ public class UserCredentialMapperTests {
     public static final String LASTNAME = "world";
     public static final String SALT = "sdfadjfkhlahfa";
     public static final String URL = "http://www.google.com";
+    public static final String URL_I = "https://github.com/";
 
     private Logger logger = LoggerFactory.getLogger(UserCredentialMapperTests.class);
 
@@ -79,5 +80,27 @@ public class UserCredentialMapperTests {
         Assertions.assertEquals(USERNAME_C, userCredentialVO.getUsername());
         Assertions.assertEquals(SALT, userCredentialVO.getKey());
         Assertions.assertEquals(PASSWORD, userCredentialVO.getPassword());
+    }
+
+    @Test
+    public void insertCredentialByUsername() {
+
+        User user = this.userMapper.getUserByUsername(USERNAME_U);
+
+        Assertions.assertNotNull(user);
+
+        this.userCredentialMapper.insertCredentialByUsername(URL_I, USERNAME_C, SALT, PASSWORD, USERNAME_U);
+
+        List<UserCredentialVO> userCredentialVOList =
+                this.userCredentialMapper.getCredentialsByUsername(USERNAME_U);
+
+        Assertions.assertFalse(userCredentialVOList.isEmpty());
+
+        UserCredentialVO userCredentialVO = userCredentialVOList.get(0);
+
+        Assertions.assertEquals(USERNAME_C, userCredentialVO.getUsername());
+        Assertions.assertEquals(SALT, userCredentialVO.getKey());
+        Assertions.assertEquals(PASSWORD, userCredentialVO.getPassword());
+        Assertions.assertEquals(URL_I, userCredentialVO.getUrl());
     }
 }
