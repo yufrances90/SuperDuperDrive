@@ -37,7 +37,7 @@ public class NoteService {
         if (noteId == null || noteId.toString() == "") {
             this.userNoteMapper.insertNoteByUsername(username, noteTitle, noteDescription);
         } else {
-            this.userNoteMapper.updateNoteByUsername(username, noteTitle, noteDescription);
+            this.noteMapper.update(noteTitle, noteDescription, noteId);
         }
 
         return true;

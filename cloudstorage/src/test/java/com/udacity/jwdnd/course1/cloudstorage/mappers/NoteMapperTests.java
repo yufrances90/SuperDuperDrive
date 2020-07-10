@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.mappers;
 import com.udacity.jwdnd.course1.cloudstorage.models.Note;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.slf4j.Logger;
@@ -49,8 +50,6 @@ public class NoteMapperTests {
     @Test
     public void findAllNotes() {
 
-        this.noteMapper.deleteAll();
-
         Note newNote = new Note(null, "Hello World", "Hello");
 
         this.noteMapper.insert(newNote);
@@ -95,5 +94,26 @@ public class NoteMapperTests {
         notes = this.noteMapper.getAllNotes();
 
         Assertions.assertTrue(notes.isEmpty());
+    }
+
+    @Test
+    public void updateNote() {
+
+        Note newNote = new Note(null, "helloWorld", "hello");
+
+        this.noteMapper.insert(newNote);
+
+        Integer noteId = newNote.getNoteid();
+
+        Assertions.assertNotNull(noteId);
+
+        this.noteMapper.update("Hello World", "This is a test", noteId);
+
+        Note note = this.noteMapper.getNoteById(noteId);
+
+        Assertions.assertNotNull(note);
+
+        Assertions.assertEquals("Hello World", note.getNotetitle());
+        Assertions.assertEquals("This is a test", note.getNotedescription());
     }
 }

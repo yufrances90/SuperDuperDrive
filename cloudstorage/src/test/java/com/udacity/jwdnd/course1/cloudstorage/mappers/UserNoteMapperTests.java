@@ -68,22 +68,4 @@ public class UserNoteMapperTests {
         Assertions.assertEquals(NOTE_DESCRIPTION, userNoteVO.getNoteDescription());
         Assertions.assertEquals(user.getUserid(), userNoteVO.getUserId());
     }
-
-    @Test
-    public void updateNoteByUsername() {
-
-        this.userNoteMapper.updateNoteByUsername(USERNAME, NOTE_TITLE_I, NOTE_DESCRIPTION_I);
-
-        User user = this.userMapper.getUserByUsername(USERNAME);
-
-        List<UserNoteVO> userNoteVOList = this.userNoteMapper.getNotesByUsername(USERNAME);
-
-        Assertions.assertFalse(userNoteVOList.isEmpty());
-
-        UserNoteVO userNoteVO = userNoteVOList.get(0);
-
-        Assertions.assertEquals(NOTE_TITLE_I, userNoteVO.getNoteTitle());
-        Assertions.assertEquals(NOTE_DESCRIPTION_I, userNoteVO.getNoteDescription());
-        Assertions.assertEquals(user.getUserid(), userNoteVO.getUserId());
-    }
 }
