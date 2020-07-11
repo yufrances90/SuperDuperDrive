@@ -4,6 +4,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,4 +54,14 @@ public class FileController {
 
         return "redirect:/result?isSuccess=" + true;
     }
+
+    @GetMapping("/delete")
+    public String deleteFile(
+            @RequestParam(required = false, name = "fileId") Integer fileId) {
+
+        Boolean isSuccess = this.fileService.deleteFile(fileId);
+
+        return "redirect:/result?isSuccess=" + isSuccess;
+    }
+
 }

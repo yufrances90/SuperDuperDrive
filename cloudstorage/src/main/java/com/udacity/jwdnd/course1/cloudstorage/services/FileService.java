@@ -64,4 +64,11 @@ public class FileService {
 
         return true;
     }
+
+    public Boolean deleteFile(Integer fileId) {
+
+        this.fileMapper.delete(fileId);
+
+        return true;
+    }
 }
