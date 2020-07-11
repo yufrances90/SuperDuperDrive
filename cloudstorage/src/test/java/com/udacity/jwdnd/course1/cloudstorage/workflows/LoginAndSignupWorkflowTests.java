@@ -7,17 +7,20 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoginAndSignupWorkflowTests {
 
     @LocalServerPort
     private int port;
 
     private WebDriver driver;
+    private WebDriverWait webDriverWait;
 
     @BeforeAll
     static void beforeAll() {
@@ -26,7 +29,9 @@ public class LoginAndSignupWorkflowTests {
 
     @BeforeEach
     public void beforeEach() {
+
         this.driver = new ChromeDriver();
+        this.webDriverWait = new WebDriverWait (driver, 1000);
     }
 
     @AfterEach
@@ -37,6 +42,7 @@ public class LoginAndSignupWorkflowTests {
     }
 
     @Test
+    @Order(1)
     public void homeNotAccessibleWithoutLoggingin() {
 
         this.driver.get("http://localhost:" + this.port + "/home");
@@ -45,6 +51,7 @@ public class LoginAndSignupWorkflowTests {
     }
 
     @Test
+    @Order(2)
 	public void loginWithInvalidCredentials() throws InterruptedException {
 
 		driver.get("http://localhost:" + this.port + "/login");
@@ -104,11 +111,17 @@ public class LoginAndSignupWorkflowTests {
 
             submitButton.click();
         });
+
+        WebElement toLoginBtn = this.driver.findElement(By.id("to-login-page"));
+
+        Assertions.assertEquals("login", toLoginBtn.getText());
+
+        toLoginBtn.click();
+
+        this.webDriverWait.until(ExpectedConditions.titleContains("Login"));
     }
 
     private void loginWorkflow() {
-
-        driver.get("http://localhost:" + this.port + "/login");
 
         Assertions.assertEquals("Login", driver.getTitle());
 
@@ -136,13 +149,14 @@ public class LoginAndSignupWorkflowTests {
     }
 
     @Test
+    @Order(3)
     public void signupAndLoginWorkflow() {
 
         this.signupWorkflow();
 
         this.loginWorkflow();
 
-        this.driver.get("http://localhost:" + this.port + "/home");
+        this.webDriverWait.until(ExpectedConditions.titleContains("Home"));
 
         Assertions.assertEquals("Home", driver.getTitle());
 
@@ -152,7 +166,7 @@ public class LoginAndSignupWorkflowTests {
 
         logoutButton.click();
 
-        this.driver.get("http://localhost:" + this.port + "/home");
+        this.webDriverWait.until(ExpectedConditions.titleContains("Login"));
 
         Assertions.assertEquals("Login", driver.getTitle());
     }

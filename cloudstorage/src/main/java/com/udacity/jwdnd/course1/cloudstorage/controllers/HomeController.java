@@ -121,30 +121,22 @@ public class HomeController {
 
         this.logger.error("Received user info from Signup Form: " + userVo.toString());
 
-        if (!this.authorizationService.signupUser(userVo)) {
+        Map<String, Object> data = new HashMap<>();
 
-            Map<String, Object> data = new HashMap<>();
+        if (!this.authorizationService.signupUser(userVo)) {
 
             data.put("toSignUp", true);
             data.put("signupSuccessfully", false);
             data.put("hasError", true);
-
-            model.mergeAttributes(data);
-
-            return "signup";
         } else {
-
-            Map<String, Object> data = new HashMap<>();
-
-            data.put("toLogin", true);
-            data.put("loginSuccessfully", false);
+            data.put("toSignUp", false);
+            data.put("signupSuccessfully", true);
             data.put("hasError", false);
-            data.put("isLoggedOut", false);
-
-            model.addAllAttributes(data);
-
-            return "login";
         }
+
+        model.mergeAttributes(data);
+
+        return "signup";
     }
 
     @GetMapping("/result")

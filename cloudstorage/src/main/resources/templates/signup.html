@@ -16,7 +16,11 @@
 
             <h1 class="display-5">Sign Up</h1>
             <div class="alert alert-dark" th:if="${not toSignUp} and ${signupSuccessfully}">
-                You successfully signed up! Please continue to the <a>login</a> page.
+                You successfully signed up! Please continue to the
+                    <a th:href="@{/login}" id="to-login-page">
+                        login
+                    </a>
+                page.
             </div>
             <div class="alert alert-danger" th:if="${hasError}">
                 <span>user/username already exists. Please try again.</span>
