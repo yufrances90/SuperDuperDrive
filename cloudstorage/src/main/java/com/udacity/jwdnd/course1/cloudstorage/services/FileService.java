@@ -8,10 +8,14 @@ import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.models.UserFileVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,5 +74,9 @@ public class FileService {
         this.fileMapper.delete(fileId);
 
         return true;
+    }
+
+    public File getFileByFileId(Integer fileId) {
+        return this.fileMapper.getFileById(fileId);
     }
 }
