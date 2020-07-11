@@ -24,14 +24,14 @@
                     to continue.
                 </span>
             </div>
-            <div class="alert alert-danger fill-parent" th:if="${not isSuccess}">
+            <div class="alert alert-danger fill-parent" th:if="${not isSuccess} and ${errorType == 1}">
                 <h1 class="display-5">Error</h1>
-                <span>Your changes were not saved. Click <a>here</a> to continue.</span>
+                <span>Your changes were not saved. Click <a th:href="@{/home}">here</a> to continue.</span>
             </div>
-            <div class="alert alert-danger fill-parent" th:if="${not isSuccess}">
+            <div class="alert alert-danger fill-parent" th:if="${not isSuccess} and ${errorType != 1}">
                 <h1 class="display-5">Error</h1>
                 <span>Example Error Message</span>
-                <span>Click <a>here</a> to continue.</span>
+                <span>Click <a th:href="@{/home}">here</a> to continue.</span>
             </div>
         </div>
     </body>

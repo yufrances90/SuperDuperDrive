@@ -44,13 +44,13 @@ public class FileController {
 
         // check if file is empty
         if (fileUpload.isEmpty()) {
-            return "redirect:/result?isSuccess=" + false;
+            return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         }
 
         String fileName = fileUpload.getOriginalFilename();
 
         if(!this.fileService.isFileNameAvailableForUser(username, fileName)) {
-            return "redirect:/result?isSuccess=" + false;
+            return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         }
 
         try {

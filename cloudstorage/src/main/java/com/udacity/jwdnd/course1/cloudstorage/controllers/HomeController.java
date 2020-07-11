@@ -151,12 +151,14 @@ public class HomeController {
     public String showResult(
             Authentication authentication,
             @RequestParam(required = false, name = "isSuccess") Boolean isSuccess,
+            @RequestParam(required = false, name = "errorType") Integer errorType,
             Model model
     ) {
 
         Map<String, Object> data = new HashMap<>();
 
         data.put("isSuccess", isSuccess);
+        data.put("errorType", errorType);
 
         model.addAllAttributes(data);
 
