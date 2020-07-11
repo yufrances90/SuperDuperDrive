@@ -19,7 +19,7 @@
                 You successfully signed up! Please continue to the <a>login</a> page.
             </div>
             <div class="alert alert-danger" th:if="${hasError}">
-                <span>Example Signup Error Message</span>
+                <span>user/username already exists. Please try again.</span>
             </div>
             <form
                     th:object="${userVo}"
