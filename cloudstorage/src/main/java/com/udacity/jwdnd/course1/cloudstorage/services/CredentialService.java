@@ -83,4 +83,11 @@ public class CredentialService {
 
         return true;
     }
+
+    public Boolean deleteCredential(Integer credentialId) {
+
+        this.credentialMapper.delete(credentialId);
+
+        return true;
+    }
 }
