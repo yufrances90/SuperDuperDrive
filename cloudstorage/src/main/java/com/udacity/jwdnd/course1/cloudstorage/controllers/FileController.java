@@ -38,12 +38,12 @@ public class FileController {
         if (fileUpload.isEmpty()) {
             return "redirect:/result?isSuccess=" + false;
         }
-        
-        String fileName = StringUtils.cleanPath(fileUpload.getOriginalFilename());
 
-//        if(!this.fileService.isFileNameAvailableForUser(username, fileName)) {
-//            return "redirect:/result?isSuccess=" + false;
-//        }
+        String fileName = fileUpload.getOriginalFilename();
+
+        if(!this.fileService.isFileNameAvailableForUser(username, fileName)) {
+            return "redirect:/result?isSuccess=" + false;
+        }
 
         try {
             this.fileService.saveFile(fileUpload, username);

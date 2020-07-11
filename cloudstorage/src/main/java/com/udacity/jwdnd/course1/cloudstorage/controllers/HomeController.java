@@ -5,6 +5,7 @@ import com.udacity.jwdnd.course1.cloudstorage.models.UserNoteVO;
 import com.udacity.jwdnd.course1.cloudstorage.models.UserVO;
 import com.udacity.jwdnd.course1.cloudstorage.services.AuthorizationService;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,16 +26,19 @@ public class HomeController {
     private AuthorizationService authorizationService;
     private NoteService noteService;
     private CredentialService credentialService;
+    private FileService fileService;
 
     public HomeController(
             AuthorizationService authorizationService,
             NoteService noteService,
-            CredentialService credentialService
+            CredentialService credentialService,
+            FileService fileService
     ) {
 
         this.authorizationService = authorizationService;
         this.noteService = noteService;
         this.credentialService = credentialService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/home")
@@ -51,6 +55,7 @@ public class HomeController {
 
         data.put("noteList", this.noteService.getNotesByUsername(username));
         data.put("credentialList", this.credentialService.getCredentialsByUsername(username));
+        data.put("fileList", this.fileService.getFilesByUser(username));
 
         model.addAllAttributes(data);
 

@@ -33,12 +33,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr th:each="file: ${fileList}">
                 <td>
                     <a target="_blank" class="btn btn-success">View</a>
                     <a  class="btn btn-danger">Delete</a>
                 </td>
-                <th scope="row">ExampleFile.txt</th>
+                <th scope="row" th:text="${file.fileName}" />
             </tr>
             </tbody>
         </table>
