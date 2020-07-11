@@ -3,7 +3,12 @@
     <body>
 
 
-        <form action="#" enctype="multipart/form-data" method="POST" th:fragment="form">
+        <form
+                th:action="@{/files/upload}"
+                enctype="multipart/form-data"
+                method="POST"
+                th:fragment="form"
+        >
 
             <div class="container">
                 <div class="row" style="margin: 1em;">
@@ -19,7 +24,6 @@
                 </div>
             </div>
         </form>
-
 
         <table class="table table-striped" id="fileTable" th:fragment="table">
             <thead>

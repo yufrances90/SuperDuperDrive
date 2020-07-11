@@ -7,7 +7,9 @@ import com.udacity.jwdnd.course1.cloudstorage.models.UserFileVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,5 +36,17 @@ public class FileService {
         paraMap.put("filename", filename);
 
         return this.userFileMapper.getFileByUsernameAndFileName(paraMap) == null;
+    }
+
+    public Boolean saveFile(MultipartFile file, String username) throws IOException {
+
+        byte[] fileData = file.getBytes();
+        String contentType = file.getContentType();
+        String fileSize = String.valueOf(file.getSize());
+        String fileName = file.getOriginalFilename();
+
+        this.logger.error(contentType);
+
+        return null;
     }
 }
