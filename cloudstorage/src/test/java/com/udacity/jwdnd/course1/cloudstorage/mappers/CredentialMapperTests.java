@@ -82,7 +82,7 @@ public class CredentialMapperTests {
 
         Assertions.assertNotNull(credentialId);
 
-        this.credentialMapper.update("", "hello", "123", credentialId);
+        this.credentialMapper.update("", "hello", "asdfasdfasf", "123", credentialId);
 
         Credential credential =
                 this.credentialMapper.getCredentialByCredentialId(credentialId);

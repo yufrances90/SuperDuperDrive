@@ -76,6 +76,7 @@ public class CredentialService {
             this.credentialMapper.update(
                     userCredentialVO.getUrl(),
                     userCredentialVO.getUsername(),
+                    encodedKey,
                     encryptedPassword,
                     credentialId);
         }

@@ -106,6 +106,14 @@
                 $('#noteModal').modal('show');
             }
 
+            function editCredential(credential) {
+                $('#credential-id').val(credential.credentialId);
+                $('#credential-url').val(credential.url);
+                $('#credential-username').val(credential.username);
+                $('#credential-password').val(credential.decryptedPassword);
+                $('#credentialModal').modal('show');
+            }
+
             // For opening the credentials modal
             function showCredentialModal(credentialId, url, username, password) {
                 $('#credential-id').val(credentialId ? credentialId : '');
